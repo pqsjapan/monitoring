@@ -18,7 +18,7 @@ services:
     container_name: loki
     image: grafana/loki:2.9.2
     ports:
-      - "3100:3100"
+      - "127.0.0.1:3100:3100"
     volumes:
       - ./loki-config.yml:/etc/loki/local-config.yml
     command: -config.file=/etc/loki/local-config.yml
@@ -30,7 +30,7 @@ services:
     container_name: prometheus
     image: prom/prometheus:latest
     ports:
-      - "9090:9090"
+      - "127.0.0.1:9090:9090"
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus-storage:/prometheus
@@ -45,12 +45,12 @@ services:
     volumes:
       - ./otel-collector-config.yml:/etc/otel-collector-config.yml
     ports:
-      - "4317:4317" # OTLP gRPC receiver
-      - "4318:4318" # OTLP HTTP receiver
-      - "8888:8888" # Prometheus metrics exposed by collector
-      - "8889:8889" # Prometheus exporter metrics
-      - "13133:13133" # Health check extension
-      - "55679:55679" # zPages extension
+      - "127.0.0.1:4317:4317" # OTLP gRPC receiver
+      - "127.0.0.1:4318:4318" # OTLP HTTP receiver
+      - "127.0.0.1:8888:8888" # Prometheus metrics exposed by collector
+      - "127.0.0.1:8889:8889" # Prometheus exporter metrics
+      - "127.0.0.1:13133:13133" # Health check extension
+      - "127.0.0.1:55679:55679" # zPages extension
     networks:
       - monitoring
 
@@ -58,9 +58,9 @@ services:
     container_name: tempo
     image: grafana/tempo:latest
     ports:
-      - "3200:3200" # HTTP UI & API
-      - "4319:4317" # OTLP gRPC receiver (changed from 4317 to avoid conflict)
-      - "4320:4318" # OTLP HTTP receiver (changed from 4318 to avoid conflict)
+      - "127.0.0.1:3200:3200" # HTTP UI & API
+      - "127.0.0.1:4319:4317" # OTLP gRPC receiver (changed from 4317 to avoid conflict)
+      - "127.0.0.1:4320:4318" # OTLP HTTP receiver (changed from 4318 to avoid conflict)
     volumes:
       - ./tempo-config.yaml:/etc/tempo.yaml
     command: ["-config.file=/etc/tempo.yaml"]
